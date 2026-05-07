@@ -248,7 +248,7 @@ if not st.session_state["logged_in"]:
                 secret_key = st.text_input(
                     "🔑 Authorization Code",
                     type="password",
-                    placeholder="Enter your invitation code",
+                    placeholder="Enter your Authorization code",
                 )
 
             st.write("")
