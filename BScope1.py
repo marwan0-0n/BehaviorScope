@@ -39,7 +39,7 @@ init_db()
 def create_user(username, email, password, role):
     conn = sqlite3.connect("users.db")
     c = conn.cursor()
-    hashed = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
+    hashed = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
     try:
         c.execute(
             "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)",
@@ -61,6 +61,10 @@ def authenticate_user(email, password):
     conn.close()
     if user:
         username, hashed_password, role = user
+        
+        if isinstance(hashed_password, str):
+            hashed_password = hashed_password.encode("utf-8")
+            
         if bcrypt.checkpw(password.encode("utf-8"), hashed_password):
             return username, role
     return None
